@@ -9,14 +9,19 @@
         Width="1280" Height="720">
     <Grid RowDefinitions="100,*,60">
         <Grid Grid.Row="0" ColumnDefinitions="Auto,*">
-            <Button Width="50" Height="50" Background="Transparent" BorderBrush="Transparent">
+            <Button Name="HamburgerButton" Width="50" Height="50" Background="Transparent" BorderBrush="Transparent">
+                <Button.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Preferences" Click="OpenPreferences"/>
+                    </ContextMenu>
+                </Button.ContextMenu>
                 <Image Source="/resources/icons/hamburger.png" Stretch="Uniform"/>
             </Button>
-            <ContentControl Grid.Column="1" Content="{Binding CurrentTopMenu}"/>
+            <TransitioningContentControl x:Name="TopMenuContent" Grid.Column="1" Content="{Binding CurrentTopMenu}"/>
         </Grid>
         <Grid Grid.Row="1" ColumnDefinitions="220,*,220">
-            <menusSide:SideMenu Grid.Column="0"/>
-            <ContentControl Grid.Column="1" Content="{Binding CurrentCenterPanel}"/>
+            <TransitioningContentControl x:Name="LeftPaneContent" Grid.Column="0" Content="{Binding CurrentLeftPane}"/>
+            <TransitioningContentControl x:Name="CenterPanelContent" Grid.Column="1" Content="{Binding CurrentCenterPanel}"/>
             <panes:RightPane Grid.Column="2"/>
         </Grid>
         <panels:StatusBar Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
