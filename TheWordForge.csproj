@@ -58,6 +58,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="resources\icons\hamburger.png" />
+    <AvaloniaResource Include="resources\icons\hamburger.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </AvaloniaResource>
   </ItemGroup>
 </Project>
