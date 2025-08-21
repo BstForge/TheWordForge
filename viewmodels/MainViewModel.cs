@@ -21,6 +21,7 @@ public class MainViewModel : INotifyPropertyChanged
     private ActivePanel _activePanel;
     private UserControl _currentCenterPanel = new TranscriptPanel();
     private UserControl _currentTopMenu = new TranscriptTopMenu();
+    private UserControl _currentLeftPane = new menus.side.SideMenu();
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -64,6 +65,19 @@ public class MainViewModel : INotifyPropertyChanged
         }
     }
 
+    public UserControl CurrentLeftPane
+    {
+        get => _currentLeftPane;
+        private set
+        {
+            if (_currentLeftPane != value)
+            {
+                _currentLeftPane = value;
+                OnPropertyChanged(nameof(CurrentLeftPane));
+            }
+        }
+    }
+
     public MainViewModel()
     {
         _activePanel = ActivePanel.Transcript;
@@ -76,30 +90,37 @@ public class MainViewModel : INotifyPropertyChanged
             case ActivePanel.Transcript:
                 CurrentCenterPanel = new TranscriptPanel();
                 CurrentTopMenu = new TranscriptTopMenu();
+                CurrentLeftPane = new menus.side.SideMenu();
                 break;
             case ActivePanel.Timeline:
                 CurrentCenterPanel = new TimelinePanel();
                 CurrentTopMenu = new TimelineTopMenu();
+                CurrentLeftPane = new menus.side.SideMenu();
                 break;
             case ActivePanel.Outline:
                 CurrentCenterPanel = new OutlinePanel();
                 CurrentTopMenu = new OutlineTopMenu();
+                CurrentLeftPane = new menus.side.SideMenu();
                 break;
             case ActivePanel.CharacterBible:
                 CurrentCenterPanel = new CharacterBiblePanel();
                 CurrentTopMenu = new CharacterBibleTopMenu();
+                CurrentLeftPane = new menus.side.SideMenu();
                 break;
             case ActivePanel.LocationBible:
                 CurrentCenterPanel = new LocationBiblePanel();
                 CurrentTopMenu = new LocationBibleTopMenu();
+                CurrentLeftPane = new menus.side.SideMenu();
                 break;
             case ActivePanel.ItemBible:
                 CurrentCenterPanel = new ItemBiblePanel();
                 CurrentTopMenu = new ItemBibleTopMenu();
+                CurrentLeftPane = new menus.side.SideMenu();
                 break;
             case ActivePanel.LoreBible:
                 CurrentCenterPanel = new LoreBiblePanel();
                 CurrentTopMenu = new LoreBibleTopMenu();
+                CurrentLeftPane = new menus.side.SideMenu();
                 break;
         }
     }

@@ -1,0 +1,60 @@
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using Avalonia.Animation;
+using Avalonia.Media;
+using Avalonia.VisualTree;
+
+namespace TheWordForge.animations;
+
+public class PushTransition : IPageTransition
+{
+    public TimeSpan Duration { get; set; } = TimeSpan.FromMilliseconds(200);
+    public PageSlide.SlideAxis Orientation { get; set; } = PageSlide.SlideAxis.Horizontal;
+
+    public async Task Start(Visual? from, Visual? to, bool forward, CancellationToken cancellationToken)
+    {
+        if (cancellationToken.IsCancellationRequested)
+            return;
+
+        var tasks = new List<Task>();
+        var parent = (from ?? to)!.VisualParent!;
+        var distance = Orientation == PageSlide.SlideAxis.Horizontal ? parent.Bounds.Width : parent.Bounds.Height;
+        var property = Orientation == PageSlide.SlideAxis.Horizontal ? TranslateTransform.XProperty : TranslateTransform.YProperty;
+
+        if (from != null)
+        {
+            var anim = new Animation
+            {
+                Duration = Duration,
+                Children =
+                {
+                    new KeyFrame { Cue = new Cue(0), Setters = { new Setter(property, 0d) } },
+                    new KeyFrame { Cue = new Cue(1), Setters = { new Setter(property, forward ? distance : -distance) } }
+                }
+            };
+            tasks.Add(anim.RunAsync(from, null, cancellationToken));
+        }
+
+        if (to != null)
+        {
+            to.IsVisible = true;
+            var anim = new Animation
+            {
+                Duration = Duration,
+                Children =
+                {
+                    new KeyFrame { Cue = new Cue(0), Setters = { new Setter(property, forward ? -distance : distance) } },
+                    new KeyFrame { Cue = new Cue(1), Setters = { new Setter(property, 0d) } }
+                }
+            };
+            tasks.Add(anim.RunAsync(to, null, cancellationToken));
+        }
+
+        await Task.WhenAll(tasks);
+
+        if (from != null && !cancellationToken.IsCancellationRequested)
+            from.IsVisible = false;
+    }
+}
