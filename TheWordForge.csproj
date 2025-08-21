@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net9.0</TargetFramework>
@@ -23,6 +23,11 @@
   <ItemGroup>
     <AvaloniaXaml Update="App.axaml" />
     <AvaloniaXaml Update="MainWindow.axaml" />
+    <AvaloniaXaml Update="menus/top/TopMenu.axaml" />
+    <AvaloniaXaml Update="menus/side/SideMenu.axaml" />
+    <AvaloniaXaml Update="panels/CenterPanel.axaml" />
+    <AvaloniaXaml Update="panels/StatusBar.axaml" />
+    <AvaloniaXaml Update="panes/RightPane.axaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +36,21 @@
     </Compile>
     <Compile Update="MainWindow.axaml.cs">
       <DependentUpon>MainWindow.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="menus/top/TopMenu.axaml.cs">
+      <DependentUpon>menus/top/TopMenu.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="menus/side/SideMenu.axaml.cs">
+      <DependentUpon>menus/side/SideMenu.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="panels/CenterPanel.axaml.cs">
+      <DependentUpon>panels/CenterPanel.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="panels/StatusBar.axaml.cs">
+      <DependentUpon>panels/StatusBar.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="panes/RightPane.axaml.cs">
+      <DependentUpon>panes/RightPane.axaml</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

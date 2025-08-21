@@ -1,0 +1,5 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="TheWordForge.menus.top.TopMenu">
+    <TextBlock Text="Top Menu Placeholder" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+</UserControl>
