@@ -8,10 +8,10 @@
         Title="TheWordForge"
         Width="1280" Height="720">
     <Grid RowDefinitions="Auto,*,Auto">
-        <menusTop:TopMenu Grid.Row="0"/>
+        <ContentControl Grid.Row="0" Content="{Binding CurrentTopMenu}"/>
         <Grid Grid.Row="1" ColumnDefinitions="15*,60*,25*">
             <menusSide:SideMenu Grid.Column="0"/>
-            <panels:CenterPanel Grid.Column="1"/>
+            <ContentControl Grid.Column="1" Content="{Binding CurrentCenterPanel}"/>
             <panes:RightPane Grid.Column="2"/>
         </Grid>
         <panels:StatusBar Grid.Row="2"/>
