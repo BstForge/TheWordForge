@@ -1,5 +1,149 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:TheWordForge"
              x:Class="TheWordForge.menus.side.SideMenu">
-    <TextBlock Text="Side Menu Placeholder" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <Border BorderBrush="White" BorderThickness="1" Background="#1e1e1e" Padding="5">
+        <StackPanel>
+            <Button Content="Transcript" Tag="Transcript" Click="Button_Click">
+                <Button.Styles>
+                    <Style Selector="Button">
+                        <Setter Property="Background" Value="#2b2b2b"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="Margin" Value="2"/>
+                    </Style>
+                    <Style Selector="Button:pointerover">
+                        <Setter Property="Background" Value="#3b3b3b"/>
+                    </Style>
+                    <Style Selector="Button">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ActivePanel}" Value="{x:Static vm:ActivePanel.Transcript}">
+                                <Setter Property="Background" Value="#555555"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Styles>
+            </Button>
+            <Button Content="Timeline" Tag="Timeline" Click="Button_Click">
+                <Button.Styles>
+                    <Style Selector="Button">
+                        <Setter Property="Background" Value="#2b2b2b"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="Margin" Value="2"/>
+                    </Style>
+                    <Style Selector="Button:pointerover">
+                        <Setter Property="Background" Value="#3b3b3b"/>
+                    </Style>
+                    <Style Selector="Button">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ActivePanel}" Value="{x:Static vm:ActivePanel.Timeline}">
+                                <Setter Property="Background" Value="#555555"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Styles>
+            </Button>
+            <Button Content="Outline" Tag="Outline" Click="Button_Click">
+                <Button.Styles>
+                    <Style Selector="Button">
+                        <Setter Property="Background" Value="#2b2b2b"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="Margin" Value="2"/>
+                    </Style>
+                    <Style Selector="Button:pointerover">
+                        <Setter Property="Background" Value="#3b3b3b"/>
+                    </Style>
+                    <Style Selector="Button">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ActivePanel}" Value="{x:Static vm:ActivePanel.Outline}">
+                                <Setter Property="Background" Value="#555555"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Styles>
+            </Button>
+            <Button Content="Character Bible" Tag="CharacterBible" Click="Button_Click">
+                <Button.Styles>
+                    <Style Selector="Button">
+                        <Setter Property="Background" Value="#2b2b2b"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="Margin" Value="2"/>
+                    </Style>
+                    <Style Selector="Button:pointerover">
+                        <Setter Property="Background" Value="#3b3b3b"/>
+                    </Style>
+                    <Style Selector="Button">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ActivePanel}" Value="{x:Static vm:ActivePanel.CharacterBible}">
+                                <Setter Property="Background" Value="#555555"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Styles>
+            </Button>
+            <Button Content="Location Bible" Tag="LocationBible" Click="Button_Click">
+                <Button.Styles>
+                    <Style Selector="Button">
+                        <Setter Property="Background" Value="#2b2b2b"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="Margin" Value="2"/>
+                    </Style>
+                    <Style Selector="Button:pointerover">
+                        <Setter Property="Background" Value="#3b3b3b"/>
+                    </Style>
+                    <Style Selector="Button">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ActivePanel}" Value="{x:Static vm:ActivePanel.LocationBible}">
+                                <Setter Property="Background" Value="#555555"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Styles>
+            </Button>
+            <Button Content="Item Bible" Tag="ItemBible" Click="Button_Click">
+                <Button.Styles>
+                    <Style Selector="Button">
+                        <Setter Property="Background" Value="#2b2b2b"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="Margin" Value="2"/>
+                    </Style>
+                    <Style Selector="Button:pointerover">
+                        <Setter Property="Background" Value="#3b3b3b"/>
+                    </Style>
+                    <Style Selector="Button">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ActivePanel}" Value="{x:Static vm:ActivePanel.ItemBible}">
+                                <Setter Property="Background" Value="#555555"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Styles>
+            </Button>
+            <Button Content="Lore Bible" Tag="LoreBible" Click="Button_Click">
+                <Button.Styles>
+                    <Style Selector="Button">
+                        <Setter Property="Background" Value="#2b2b2b"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="Margin" Value="2"/>
+                    </Style>
+                    <Style Selector="Button:pointerover">
+                        <Setter Property="Background" Value="#3b3b3b"/>
+                    </Style>
+                    <Style Selector="Button">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ActivePanel}" Value="{x:Static vm:ActivePanel.LoreBible}">
+                                <Setter Property="Background" Value="#555555"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Styles>
+            </Button>
+        </StackPanel>
+    </Border>
 </UserControl>
