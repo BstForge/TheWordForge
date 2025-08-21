@@ -7,13 +7,18 @@
         xmlns:panes="clr-namespace:TheWordForge.panes"
         Title="TheWordForge"
         Width="1280" Height="720">
-    <Grid RowDefinitions="Auto,*,Auto">
-        <ContentControl Grid.Row="0" Content="{Binding CurrentTopMenu}"/>
-        <Grid Grid.Row="1" ColumnDefinitions="15*,60*,25*">
+    <Grid RowDefinitions="100,*,60">
+        <Grid Grid.Row="0" ColumnDefinitions="Auto,*">
+            <Button Width="50" Height="50" Background="Transparent" BorderBrush="Transparent">
+                <Image Source="/resources/icons/hamburger.png" Stretch="Uniform"/>
+            </Button>
+            <ContentControl Grid.Column="1" Content="{Binding CurrentTopMenu}"/>
+        </Grid>
+        <Grid Grid.Row="1" ColumnDefinitions="220,*,220">
             <menusSide:SideMenu Grid.Column="0"/>
             <ContentControl Grid.Column="1" Content="{Binding CurrentCenterPanel}"/>
             <panes:RightPane Grid.Column="2"/>
         </Grid>
-        <panels:StatusBar Grid.Row="2"/>
+        <panels:StatusBar Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
     </Grid>
 </Window>
