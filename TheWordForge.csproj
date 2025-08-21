@@ -6,6 +6,9 @@
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="resources\icons\hamburger.png" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="11.3.4" />
@@ -52,5 +55,9 @@
     <Compile Update="panes/RightPane.axaml.cs">
       <DependentUpon>panes/RightPane.axaml</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="resources\icons\hamburger.png" />
   </ItemGroup>
 </Project>
