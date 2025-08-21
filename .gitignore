@@ -416,3 +416,9 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# Custom ignore rules
+/bin/
+/obj/
+.vscode/
+.idea/
