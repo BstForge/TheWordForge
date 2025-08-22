@@ -6,6 +6,11 @@ namespace TheWordForge;
 
 public partial class App : Application
 {
+    // Parameterless constructor required for Avalonia XAML loader
+    public App()
+    {
+    }
+
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
