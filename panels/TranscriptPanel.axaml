@@ -10,6 +10,7 @@
 
             <Border Grid.Column="0" BorderBrush="White" BorderThickness="0,0,1,0" Background="#2a2a2a">
                 <DockPanel>
+                    <Button Content="Add Chapter" DockPanel.Dock="Bottom" Margin="5" Click="AddChapter"/>
                     <TreeView x:Name="ChapterTree" ItemsSource="{Binding Chapters}" Margin="5" DragDrop.AllowDrop="True">
                         <TreeView.ItemTemplate>
                             <TreeDataTemplate ItemsSource="{Binding Scenes}">
@@ -17,7 +18,6 @@
                             </TreeDataTemplate>
                         </TreeView.ItemTemplate>
                     </TreeView>
-                    <Button Content="Add Chapter" DockPanel.Dock="Bottom" Margin="5" Click="AddChapter"/>
                 </DockPanel>
             </Border>
 
@@ -37,15 +37,21 @@
                          ScrollViewer.VerticalScrollBarVisibility="Auto"
                          Margin="5"/>
 
-                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-                    <ComboBox x:Name="ScopeComboBox" Width="100" SelectedIndex="0">
+                <Grid Grid.Row="2" Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox x:Name="ScopeComboBox" Width="100" SelectedIndex="0" Grid.Column="0">
                         <ComboBoxItem Content="Scene"/>
                         <ComboBoxItem Content="Chapter"/>
                         <ComboBoxItem Content="Project"/>
                     </ComboBox>
-                    <TextBlock x:Name="WordCountText" Margin="10,0,0,0"/>
-                    <TextBlock x:Name="CharacterCountText" Margin="10,0,0,0"/>
-                </StackPanel>
+                    <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
+                        <TextBlock x:Name="WordCountText" Margin="10,0,0,0"/>
+                        <TextBlock x:Name="CharacterCountText" Margin="10,0,0,0"/>
+                    </StackPanel>
+                </Grid>
             </Grid>
         </Grid>
     </Border>
