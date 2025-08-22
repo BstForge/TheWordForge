@@ -16,8 +16,11 @@ public partial class App : Application
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.MainWindow = new MainWindow();
-            var newProjectWindow = new NewProjectWindow();
-            newProjectWindow.Show(desktop.MainWindow);
+            desktop.Startup += (_, _) =>
+            {
+                var newProjectWindow = new NewProjectWindow();
+                newProjectWindow.Show(desktop.MainWindow);
+            };
         }
 
         base.OnFrameworkInitializationCompleted();
