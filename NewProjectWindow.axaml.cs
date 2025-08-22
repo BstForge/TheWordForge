@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Interactivity;
+using Avalonia.Platform.Storage;
 using System;
 using System.IO;
 using TheWordForge.services;
@@ -18,25 +19,27 @@ public partial class NewProjectWindow : Window
 
     private async void BrowseSaveLocation(object? sender, RoutedEventArgs e)
     {
-        var dialog = new OpenFolderDialog();
-        var result = await dialog.ShowAsync(this);
-        if (!string.IsNullOrEmpty(result) && DataContext is NewProjectViewModel vm)
+        var folders = await StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions());
+        if (folders.Count > 0 && DataContext is NewProjectViewModel vm)
         {
-            vm.SaveLocation = result;
+            vm.SaveLocation = folders[0].Path.LocalPath;
         }
     }
 
     private async void LoadExistingProject(object? sender, RoutedEventArgs e)
     {
-        var dialog = new OpenFileDialog
+        var options = new FilePickerOpenOptions
         {
             AllowMultiple = false,
-            Filters = { new FileDialogFilter { Name = "Forge Project", Extensions = { "forge" } } }
+            FileTypeFilter = new[]
+            {
+                new FilePickerFileType("Forge Project") { Patterns = new[] { "*.forge" } }
+            }
         };
-        var files = await dialog.ShowAsync(this);
-        if (files != null && files.Length > 0)
+        var files = await StorageProvider.OpenFilePickerAsync(options);
+        if (files.Count > 0)
         {
-            await ProjectService.LoadProjectAsync(files[0]);
+            await ProjectService.LoadProjectAsync(files[0].Path.LocalPath);
             Close();
         }
     }

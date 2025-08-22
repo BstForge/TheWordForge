@@ -62,9 +62,12 @@ public partial class TranscriptPanel : UserControl
             return;
 
         _dragItem = item.DataContext;
-        var data = new DataObject();
-        data.Set("application/x-treeitem", _dragItem);
-        await DragDrop.DoDragDrop(e, data, DragDropEffects.Move);
+        if (_dragItem != null)
+        {
+            var data = new DataObject();
+            data.Set("application/x-treeitem", _dragItem);
+            await DragDrop.DoDragDrop(e, data, DragDropEffects.Move);
+        }
     }
 
     private void TreeViewDragOver(object? sender, DragEventArgs e)
@@ -96,22 +99,22 @@ public partial class TranscriptPanel : UserControl
         if (targetItem == null || ReferenceEquals(targetItem, _dragItem))
             return;
 
-        if (_dragItem is Chapter draggedChapter && targetItem is Chapter targetChapter)
+        if (_dragItem is Chapter draggedChapter && targetItem is Chapter targetChapterObj)
         {
             var chapters = vm.Chapters;
             var oldIndex = chapters.IndexOf(draggedChapter);
-            var newIndex = chapters.IndexOf(targetChapter);
+            var newIndex = chapters.IndexOf(targetChapterObj);
             if (oldIndex >= 0 && newIndex >= 0)
             {
                 chapters.Move(oldIndex, newIndex);
             }
         }
-        else if (_dragItem is Chapter draggedCh && targetItem is Scene targetScene)
+        else if (_dragItem is Chapter draggedCh && targetItem is Scene targetSceneObj)
         {
             var chapters = vm.Chapters;
             var oldIndex = chapters.IndexOf(draggedCh);
-            var targetChapter = vm.Chapters.First(ch => ch.Scenes.Contains(targetScene));
-            var newIndex = chapters.IndexOf(targetChapter);
+            var containingChapter = vm.Chapters.First(ch => ch.Scenes.Contains(targetSceneObj));
+            var newIndex = chapters.IndexOf(containingChapter);
             if (oldIndex >= 0 && newIndex >= 0)
             {
                 chapters.Move(oldIndex, newIndex);
@@ -123,10 +126,10 @@ public partial class TranscriptPanel : UserControl
             Chapter destChapter;
             int insertIndex;
 
-            if (targetItem is Scene targetScene)
+            if (targetItem is Scene targetSceneItem)
             {
-                destChapter = vm.Chapters.First(ch => ch.Scenes.Contains(targetScene));
-                insertIndex = destChapter.Scenes.IndexOf(targetScene);
+                destChapter = vm.Chapters.First(ch => ch.Scenes.Contains(targetSceneItem));
+                insertIndex = destChapter.Scenes.IndexOf(targetSceneItem);
             }
             else if (targetItem is Chapter tc)
             {
