@@ -45,6 +45,7 @@ public class PushTransition : IPageTransition
         if (to != null)
         {
             var transform = new TranslateTransform();
+            transform.SetValue(property, forward ? -distance : distance);
             to.RenderTransform = transform;
             to.IsVisible = true;
             if (to is InputElement toElement)
