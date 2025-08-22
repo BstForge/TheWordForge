@@ -6,6 +6,7 @@ using Avalonia.Animation;
 using Avalonia.Media;
 using Avalonia.VisualTree;
 using Avalonia.Styling;
+using Avalonia.Input;
 
 namespace TheWordForge.animations;
 
@@ -32,6 +33,9 @@ public class DynamicTransition : IPageTransition
             };
             await animOut.RunAsync(scale, cancellationToken);
             from.IsVisible = false;
+            if (from is InputElement fromElement)
+                fromElement.IsHitTestVisible = false;
+            from.RenderTransform = null;
         }
 
         if (to != null)
@@ -40,6 +44,8 @@ public class DynamicTransition : IPageTransition
             to.RenderTransformOrigin = new RelativePoint(0.5, 0, RelativeUnit.Relative);
             to.RenderTransform = start;
             to.IsVisible = true;
+            if (to is InputElement toElement)
+                toElement.IsHitTestVisible = true;
             var animIn = new Animation
             {
                 Duration = Duration / 2,
@@ -49,6 +55,7 @@ public class DynamicTransition : IPageTransition
                 }
             };
             await animIn.RunAsync(start, cancellationToken);
+            to.RenderTransform = null;
         }
     }
 }
