@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Interactivity;
 using System;
+using System.IO;
 using TheWordForge.services;
 
 namespace TheWordForge;
@@ -17,11 +18,7 @@ public partial class NewProjectWindow : Window
 
     private async void BrowseSaveLocation(object? sender, RoutedEventArgs e)
     {
-        var dialog = new SaveFileDialog
-        {
-            Filters = { new FileDialogFilter { Name = "Forge Project", Extensions = { "forge" } } },
-            DefaultExtension = "forge"
-        };
+        var dialog = new OpenFolderDialog();
         var result = await dialog.ShowAsync(this);
         if (!string.IsNullOrEmpty(result) && DataContext is NewProjectViewModel vm)
         {
@@ -63,11 +60,13 @@ public partial class NewProjectWindow : Window
         }
     }
 
-    private void CreateProject(object? sender, RoutedEventArgs e)
+    private async void CreateProject(object? sender, RoutedEventArgs e)
     {
         if (DataContext is NewProjectViewModel vm)
         {
-            ProjectService.NewProject(vm.Title, vm.AuthorName, vm.Genre, vm.SaveLocation);
+            var filePath = Path.Combine(vm.SaveLocation, $"{vm.Title}.forge");
+            ProjectService.NewProject(vm.Title, vm.AuthorName, vm.Genre, filePath);
+            await ProjectService.SaveProjectAsync();
             Close();
         }
     }

@@ -49,7 +49,9 @@ public partial class TranscriptPanel : UserControl
     {
         if (DataContext is TranscriptPanelViewModel vm)
         {
-            vm.Chapters.Add(new Chapter { Title = $"Chapter {vm.Chapters.Count + 1}" });
+            var chapter = new Chapter { Title = $"Chapter {vm.Chapters.Count + 1}" };
+            chapter.Scenes.Add(new Scene { Title = "Scene 1" });
+            vm.Chapters.Add(chapter);
         }
     }
 
@@ -67,7 +69,21 @@ public partial class TranscriptPanel : UserControl
 
     private void TreeViewDragOver(object? sender, DragEventArgs e)
     {
-        e.DragEffects = DragDropEffects.Move;
+        if (_dragItem == null)
+            return;
+
+        var targetItem = (e.Source as Control)?.FindAncestorOfType<TreeViewItem>()?.DataContext;
+        e.DragEffects = DragDropEffects.None;
+
+        if (_dragItem is Chapter && targetItem is Chapter)
+        {
+            e.DragEffects = DragDropEffects.Move;
+        }
+        else if (_dragItem is Scene && (targetItem is Scene || targetItem is Chapter))
+        {
+            e.DragEffects = DragDropEffects.Move;
+        }
+
         e.Handled = true;
     }
 
@@ -84,6 +100,17 @@ public partial class TranscriptPanel : UserControl
         {
             var chapters = vm.Chapters;
             var oldIndex = chapters.IndexOf(draggedChapter);
+            var newIndex = chapters.IndexOf(targetChapter);
+            if (oldIndex >= 0 && newIndex >= 0)
+            {
+                chapters.Move(oldIndex, newIndex);
+            }
+        }
+        else if (_dragItem is Chapter draggedCh && targetItem is Scene targetScene)
+        {
+            var chapters = vm.Chapters;
+            var oldIndex = chapters.IndexOf(draggedCh);
+            var targetChapter = vm.Chapters.First(ch => ch.Scenes.Contains(targetScene));
             var newIndex = chapters.IndexOf(targetChapter);
             if (oldIndex >= 0 && newIndex >= 0)
             {
