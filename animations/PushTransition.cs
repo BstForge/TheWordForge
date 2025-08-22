@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Media;
 using Avalonia.VisualTree;
+using Avalonia.Styling;
 
 namespace TheWordForge.animations;
 
@@ -19,7 +21,7 @@ public class PushTransition : IPageTransition
             return;
 
         var tasks = new List<Task>();
-        var parent = (from ?? to)!.VisualParent!;
+        var parent = ((from ?? to)!).GetVisualParent()!;
         var distance = Orientation == PageSlide.SlideAxis.Horizontal ? parent.Bounds.Width : parent.Bounds.Height;
         var property = Orientation == PageSlide.SlideAxis.Horizontal ? TranslateTransform.XProperty : TranslateTransform.YProperty;
 
@@ -34,7 +36,7 @@ public class PushTransition : IPageTransition
                     new KeyFrame { Cue = new Cue(1), Setters = { new Setter(property, forward ? distance : -distance) } }
                 }
             };
-            tasks.Add(anim.RunAsync(from, null, cancellationToken));
+            tasks.Add(anim.RunAsync(from, cancellationToken));
         }
 
         if (to != null)
@@ -49,7 +51,7 @@ public class PushTransition : IPageTransition
                     new KeyFrame { Cue = new Cue(1), Setters = { new Setter(property, 0d) } }
                 }
             };
-            tasks.Add(anim.RunAsync(to, null, cancellationToken));
+            tasks.Add(anim.RunAsync(to, cancellationToken));
         }
 
         await Task.WhenAll(tasks);

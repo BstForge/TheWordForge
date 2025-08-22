@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net9.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-  </PropertyGroup>
+    <PropertyGroup>
+      <OutputType>WinExe</OutputType>
+      <TargetFramework>net8.0</TargetFramework>
+      <Nullable>enable</Nullable>
+      <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+      <ApplicationManifest>app.manifest</ApplicationManifest>
+    </PropertyGroup>
   <ItemGroup>
     <None Remove="resources\icons\hamburger.png" />
   </ItemGroup>
