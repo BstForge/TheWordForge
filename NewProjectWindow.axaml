@@ -1,0 +1,25 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="TheWordForge.NewProjectWindow"
+        Title="New Project"
+        SizeToContent="WidthAndHeight"
+        MinWidth="400" MinHeight="300">
+    <StackPanel Margin="10" Spacing="10">
+        <TextBlock Text="Title"/>
+        <TextBox Width="300" Text="{Binding Title}"/>
+        <TextBlock Text="Author Name"/>
+        <TextBox Width="300" Text="{Binding AuthorName}"/>
+        <TextBlock Text="Genre"/>
+        <ComboBox Width="300" SelectedItem="{Binding Genre}" ItemsSource="{Binding Genres}"/>
+        <TextBlock Text="Save Location"/>
+        <StackPanel Orientation="Horizontal" Spacing="5">
+            <TextBox Width="260" Text="{Binding SaveLocation}"/>
+            <Button Content="Browse" Click="BrowseSaveLocation"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="5" Margin="0,20,0,0">
+            <Button Content="Load Project" Click="LoadExistingProject"/>
+            <Button Content="Cancel" Click="Cancel"/>
+            <Button Content="OK" Click="CreateProject"/>
+        </StackPanel>
+    </StackPanel>
+</Window>

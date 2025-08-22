@@ -11,9 +11,9 @@
             <Button Name="HamburgerButton" Width="100" Height="100" Background="Transparent" BorderBrush="Transparent" Click="OpenHamburgerMenu">
                 <Button.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="New Project"/>
-                        <MenuItem Header="Load Project"/>
-                        <MenuItem Header="Save Project"/>
+                        <MenuItem Header="New Project" Click="OpenNewProject"/>
+                        <MenuItem Header="Load Project" Click="LoadProject"/>
+                        <MenuItem Header="Save Project" Click="SaveProject"/>
                         <MenuItem Header="Preferences" Click="OpenPreferences"/>
                         <MenuItem Header="Export">
                             <MenuItem Header="PDF"/>

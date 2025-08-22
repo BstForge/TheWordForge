@@ -1,6 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using TheWordForge.services;
+using System.Threading.Tasks;
 
 namespace TheWordForge;
 
@@ -26,6 +27,29 @@ public partial class MainWindow : Window
     {
         var win = new PreferencesWindow();
         win.ShowDialog(this);
+    }
+
+    private void OpenNewProject(object? sender, RoutedEventArgs e)
+    {
+        var win = new NewProjectWindow();
+        win.ShowDialog(this);
+    }
+
+    private async void LoadProject(object? sender, RoutedEventArgs e)
+    {
+        var dialog = new OpenFileDialog
+        {
+            AllowMultiple = false,
+            Filters = { new FileDialogFilter { Name = "Forge Project", Extensions = { "forge" } } }
+        };
+        var files = await dialog.ShowAsync(this);
+        if (files != null && files.Length > 0)
+            await ProjectService.LoadProjectAsync(files[0]);
+    }
+
+    private async void SaveProject(object? sender, RoutedEventArgs e)
+    {
+        await ProjectService.SaveProjectAsync();
     }
 
     private void OpenHamburgerMenu(object? sender, RoutedEventArgs e)
