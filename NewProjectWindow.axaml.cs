@@ -1,4 +1,6 @@
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Interactivity;
 using System;
 using TheWordForge.services;
@@ -44,7 +46,21 @@ public partial class NewProjectWindow : Window
 
     private void Cancel(object? sender, RoutedEventArgs e)
     {
-        Environment.Exit(0);
+        if (ProjectService.CurrentProject == null)
+        {
+            if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            {
+                desktop.Shutdown();
+            }
+            else
+            {
+                Environment.Exit(0);
+            }
+        }
+        else
+        {
+            Close();
+        }
     }
 
     private void CreateProject(object? sender, RoutedEventArgs e)
