@@ -1,7 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Platform.Storage;
 using TheWordForge.services;
-using System.Threading.Tasks;
 
 namespace TheWordForge;
 
@@ -37,14 +37,17 @@ public partial class MainWindow : Window
 
     private async void LoadProject(object? sender, RoutedEventArgs e)
     {
-        var dialog = new OpenFileDialog
+        var options = new FilePickerOpenOptions
         {
             AllowMultiple = false,
-            Filters = { new FileDialogFilter { Name = "Forge Project", Extensions = { "forge" } } }
+            FileTypeFilter = new[]
+            {
+                new FilePickerFileType("Forge Project") { Patterns = new[] { "*.forge" } }
+            }
         };
-        var files = await dialog.ShowAsync(this);
-        if (files != null && files.Length > 0)
-            await ProjectService.LoadProjectAsync(files[0]);
+        var files = await StorageProvider.OpenFilePickerAsync(options);
+        if (files.Count > 0)
+            await ProjectService.LoadProjectAsync(files[0].Path.LocalPath);
     }
 
     private async void SaveProject(object? sender, RoutedEventArgs e)
