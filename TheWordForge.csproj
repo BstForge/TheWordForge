@@ -39,6 +39,7 @@
     <AvaloniaXaml Update="panes/LoreBibleRightPane.axaml" />
     <AvaloniaXaml Update="PreferencesWindow.axaml" />
     <AvaloniaXaml Update="CustomizationWindow.axaml" />
+    <AvaloniaXaml Update="NewProjectWindow.axaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -86,6 +87,9 @@
     </Compile>
     <Compile Update="CustomizationWindow.axaml.cs">
       <DependentUpon>CustomizationWindow.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="NewProjectWindow.axaml.cs">
+      <DependentUpon>NewProjectWindow.axaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
