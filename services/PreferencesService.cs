@@ -5,7 +5,7 @@ namespace TheWordForge.services;
 
 public static class PreferencesService
 {
-    private static bool _transitionsEnabled;
+    private static bool _transitionsEnabled = true;
 
     public static bool TransitionsEnabled
     {

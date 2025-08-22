@@ -4,7 +4,6 @@
         xmlns:menusTop="clr-namespace:TheWordForge.menus.top"
         xmlns:menusSide="clr-namespace:TheWordForge.menus.side"
         xmlns:panels="clr-namespace:TheWordForge.panels"
-        xmlns:panes="clr-namespace:TheWordForge.panes"
         Title="TheWordForge"
         Width="1280" Height="720">
     <Grid RowDefinitions="100,*,60">
@@ -33,7 +32,7 @@
         <Grid Grid.Row="1" ColumnDefinitions="220,*,220">
             <TransitioningContentControl x:Name="LeftPaneContent" Grid.Column="0" Content="{Binding CurrentLeftPane}"/>
             <TransitioningContentControl x:Name="CenterPanelContent" Grid.Column="1" Content="{Binding CurrentCenterPanel}"/>
-            <panes:RightPane Grid.Column="2"/>
+            <TransitioningContentControl x:Name="RightPaneContent" Grid.Column="2" Content="{Binding CurrentRightPane}"/>
         </Grid>
         <panels:StatusBar Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
     </Grid>

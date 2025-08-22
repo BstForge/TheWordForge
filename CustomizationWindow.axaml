@@ -1,0 +1,7 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="TheWordForge.CustomizationWindow"
+        MinWidth="300" MinHeight="150" SizeToContent="WidthAndHeight">
+    <TextBlock x:Name="TitleBlock" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+</Window>
+

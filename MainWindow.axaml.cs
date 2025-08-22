@@ -19,6 +19,7 @@ public partial class MainWindow : Window
         TopMenuContent.PageTransition = PreferencesService.BuildTransition();
         LeftPaneContent.PageTransition = PreferencesService.BuildTransition();
         CenterPanelContent.PageTransition = PreferencesService.BuildTransition();
+        RightPaneContent.PageTransition = PreferencesService.BuildTransition();
     }
 
     private void OpenPreferences(object? sender, RoutedEventArgs e)
