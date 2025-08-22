@@ -1,5 +1,28 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="TheWordForge.menus.top.TopMenu">
-    <TextBlock Text="Top Menu Placeholder" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0">
+        <StackPanel>
+            <TextBlock Text="Right Pane" Foreground="White" HorizontalAlignment="Center"/>
+            <Border BorderBrush="White" BorderThickness="1" Padding="5">
+                <StackPanel Orientation="Horizontal" Spacing="5">
+                    <Button x:Name="TimelineButton" Content="Timeline" Click="OpenTimeline"/>
+                    <Button x:Name="OutlineButton" Content="Outline" Click="OpenOutline"/>
+                    <StackPanel>
+                        <TextBlock Text="Bibles" Foreground="White" HorizontalAlignment="Center"/>
+                        <Border Background="Gray" Padding="5">
+                            <StackPanel Orientation="Horizontal" Spacing="5">
+                                <Button x:Name="CharacterBibleButton" Content="Character" Click="OpenCharacterBible"/>
+                                <Button x:Name="LocationBibleButton" Content="Location" Click="OpenLocationBible"/>
+                                <Button x:Name="ItemBibleButton" Content="Item" Click="OpenItemBible"/>
+                                <Button x:Name="LoreBibleButton" Content="Lore" Click="OpenLoreBible"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+        <Button x:Name="CustomizeButton" Content="Customize" Margin="10,0,0,0" Click="OpenCustomize"/>
+    </StackPanel>
 </UserControl>
+

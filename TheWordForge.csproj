@@ -31,7 +31,14 @@
     <AvaloniaXaml Update="panels/CenterPanel.axaml" />
     <AvaloniaXaml Update="panels/StatusBar.axaml" />
     <AvaloniaXaml Update="panes/RightPane.axaml" />
+    <AvaloniaXaml Update="panes/TimelineRightPane.axaml" />
+    <AvaloniaXaml Update="panes/OutlineRightPane.axaml" />
+    <AvaloniaXaml Update="panes/CharacterBibleRightPane.axaml" />
+    <AvaloniaXaml Update="panes/LocationBibleRightPane.axaml" />
+    <AvaloniaXaml Update="panes/ItemBibleRightPane.axaml" />
+    <AvaloniaXaml Update="panes/LoreBibleRightPane.axaml" />
     <AvaloniaXaml Update="PreferencesWindow.axaml" />
+    <AvaloniaXaml Update="CustomizationWindow.axaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -56,8 +63,29 @@
     <Compile Update="panes/RightPane.axaml.cs">
       <DependentUpon>panes/RightPane.axaml</DependentUpon>
     </Compile>
+    <Compile Update="panes/TimelineRightPane.axaml.cs">
+      <DependentUpon>panes/TimelineRightPane.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="panes/OutlineRightPane.axaml.cs">
+      <DependentUpon>panes/OutlineRightPane.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="panes/CharacterBibleRightPane.axaml.cs">
+      <DependentUpon>panes/CharacterBibleRightPane.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="panes/LocationBibleRightPane.axaml.cs">
+      <DependentUpon>panes/LocationBibleRightPane.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="panes/ItemBibleRightPane.axaml.cs">
+      <DependentUpon>panes/ItemBibleRightPane.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="panes/LoreBibleRightPane.axaml.cs">
+      <DependentUpon>panes/LoreBibleRightPane.axaml</DependentUpon>
+    </Compile>
     <Compile Update="PreferencesWindow.axaml.cs">
       <DependentUpon>PreferencesWindow.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="CustomizationWindow.axaml.cs">
+      <DependentUpon>CustomizationWindow.axaml</DependentUpon>
     </Compile>
   </ItemGroup>
 

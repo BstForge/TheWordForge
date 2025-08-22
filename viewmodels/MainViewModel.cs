@@ -2,6 +2,7 @@ using System.ComponentModel;
 using Avalonia.Controls;
 using TheWordForge.menus.top;
 using TheWordForge.panels;
+using TheWordForge.panes;
 
 namespace TheWordForge;
 
@@ -20,8 +21,9 @@ public class MainViewModel : INotifyPropertyChanged
 {
     private ActivePanel _activePanel;
     private UserControl _currentCenterPanel = new TranscriptPanel();
-    private UserControl _currentTopMenu = new TranscriptTopMenu();
+    private UserControl _currentTopMenu = new TopMenu();
     private UserControl _currentLeftPane = new menus.side.SideMenu();
+    private UserControl _currentRightPane = new RightPane();
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -78,6 +80,19 @@ public class MainViewModel : INotifyPropertyChanged
         }
     }
 
+    public UserControl CurrentRightPane
+    {
+        get => _currentRightPane;
+        set
+        {
+            if (_currentRightPane != value)
+            {
+                _currentRightPane = value;
+                OnPropertyChanged(nameof(CurrentRightPane));
+            }
+        }
+    }
+
     public MainViewModel()
     {
         _activePanel = ActivePanel.Transcript;
@@ -89,37 +104,30 @@ public class MainViewModel : INotifyPropertyChanged
         {
             case ActivePanel.Transcript:
                 CurrentCenterPanel = new TranscriptPanel();
-                CurrentTopMenu = new TranscriptTopMenu();
                 CurrentLeftPane = new menus.side.SideMenu();
                 break;
             case ActivePanel.Timeline:
                 CurrentCenterPanel = new TimelinePanel();
-                CurrentTopMenu = new TimelineTopMenu();
                 CurrentLeftPane = new menus.side.SideMenu();
                 break;
             case ActivePanel.Outline:
                 CurrentCenterPanel = new OutlinePanel();
-                CurrentTopMenu = new OutlineTopMenu();
                 CurrentLeftPane = new menus.side.SideMenu();
                 break;
             case ActivePanel.CharacterBible:
                 CurrentCenterPanel = new CharacterBiblePanel();
-                CurrentTopMenu = new CharacterBibleTopMenu();
                 CurrentLeftPane = new menus.side.SideMenu();
                 break;
             case ActivePanel.LocationBible:
                 CurrentCenterPanel = new LocationBiblePanel();
-                CurrentTopMenu = new LocationBibleTopMenu();
                 CurrentLeftPane = new menus.side.SideMenu();
                 break;
             case ActivePanel.ItemBible:
                 CurrentCenterPanel = new ItemBiblePanel();
-                CurrentTopMenu = new ItemBibleTopMenu();
                 CurrentLeftPane = new menus.side.SideMenu();
                 break;
             case ActivePanel.LoreBible:
                 CurrentCenterPanel = new LoreBiblePanel();
-                CurrentTopMenu = new LoreBibleTopMenu();
                 CurrentLeftPane = new menus.side.SideMenu();
                 break;
         }
