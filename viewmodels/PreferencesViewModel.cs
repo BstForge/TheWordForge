@@ -7,6 +7,7 @@ namespace TheWordForge;
 public class PreferencesViewModel : INotifyPropertyChanged
 {
     public Array TransitionModes => Enum.GetValues(typeof(TransitionMode));
+    public Array TransitionSpeeds => Enum.GetValues(typeof(TransitionSpeed));
 
     public TransitionMode TransitionMode
     {
@@ -17,6 +18,19 @@ public class PreferencesViewModel : INotifyPropertyChanged
             {
                 PreferencesService.Transition = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TransitionMode)));
+            }
+        }
+    }
+
+    public TransitionSpeed TransitionSpeed
+    {
+        get => PreferencesService.Speed;
+        set
+        {
+            if (PreferencesService.Speed != value)
+            {
+                PreferencesService.Speed = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TransitionSpeed)));
             }
         }
     }
