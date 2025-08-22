@@ -8,6 +8,6 @@
         Title="Preferences">
     <StackPanel Margin="10">
         <TextBlock Text="Transitions" Margin="0,0,0,5"/>
-        <ComboBox Items="{Binding TransitionModes}" SelectedItem="{Binding TransitionMode}"/>
+        <ComboBox ItemsSource="{Binding TransitionModes}" SelectedItem="{Binding TransitionMode}"/>
     </StackPanel>
 </Window>

@@ -5,6 +5,7 @@ using Avalonia.Animation;
 using Avalonia.Media;
 using Avalonia;
 using Avalonia.VisualTree;
+using Avalonia.Styling;
 
 namespace TheWordForge.animations;
 
@@ -30,7 +31,7 @@ public class AccordionTransition : IPageTransition
                     new KeyFrame { Cue = new Cue(1), Setters = { new Setter(property, 0d) } }
                 }
             };
-            await animOut.RunAsync(scale, null, cancellationToken);
+            await animOut.RunAsync(scale, cancellationToken);
             from.IsVisible = false;
         }
 
@@ -48,7 +49,7 @@ public class AccordionTransition : IPageTransition
                     new KeyFrame { Cue = new Cue(1), Setters = { new Setter(property, 1d) } }
                 }
             };
-            await animIn.RunAsync(startValue, null, cancellationToken);
+            await animIn.RunAsync(startValue, cancellationToken);
         }
     }
 }
