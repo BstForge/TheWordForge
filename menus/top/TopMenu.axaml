@@ -1,8 +1,13 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="TheWordForge.menus.top.TopMenu">
-    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0">
-        <StackPanel>
+    <UserControl.Styles>
+        <Style Selector="Button">
+            <Setter Property="Height" Value="45"/>
+        </Style>
+    </UserControl.Styles>
+    <Grid ColumnDefinitions="*,Auto" VerticalAlignment="Center" Margin="10,0">
+        <StackPanel Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center">
             <TextBlock Text="Right Pane" Foreground="White" HorizontalAlignment="Center"/>
             <Border BorderBrush="White" BorderThickness="1" Padding="5">
                 <StackPanel Orientation="Horizontal" Spacing="5">
@@ -10,7 +15,7 @@
                     <Button x:Name="OutlineButton" Content="Outline" Click="OpenOutline"/>
                     <StackPanel>
                         <TextBlock Text="Bibles" Foreground="White" HorizontalAlignment="Center"/>
-                        <Border Background="Gray" Padding="5">
+                        <Border Background="Black" Padding="5">
                             <StackPanel Orientation="Horizontal" Spacing="5">
                                 <Button x:Name="CharacterBibleButton" Content="Character" Click="OpenCharacterBible"/>
                                 <Button x:Name="LocationBibleButton" Content="Location" Click="OpenLocationBible"/>
@@ -22,7 +27,7 @@
                 </StackPanel>
             </Border>
         </StackPanel>
-        <Button x:Name="CustomizeButton" Content="Customize" Margin="10,0,0,0" Click="OpenCustomize"/>
-    </StackPanel>
+        <Button x:Name="CustomizeButton" Grid.Column="1" HorizontalAlignment="Right" Content="Customize" Margin="10,0,0,0" Click="OpenCustomize"/>
+    </Grid>
 </UserControl>
 

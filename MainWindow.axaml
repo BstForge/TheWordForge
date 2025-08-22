@@ -8,7 +8,7 @@
         Width="1280" Height="720">
     <Grid RowDefinitions="100,*,60">
         <Grid Grid.Row="0" ColumnDefinitions="Auto,*">
-            <Button Name="HamburgerButton" Width="50" Height="50" Background="Transparent" BorderBrush="Transparent" Click="OpenHamburgerMenu">
+            <Button Name="HamburgerButton" Width="100" Height="100" Background="Transparent" BorderBrush="Transparent" Click="OpenHamburgerMenu">
                 <Button.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="New Project"/>
@@ -29,7 +29,7 @@
             </Button>
             <TransitioningContentControl x:Name="TopMenuContent" Grid.Column="1" Content="{Binding CurrentTopMenu}"/>
         </Grid>
-        <Grid Grid.Row="1" ColumnDefinitions="220,*,220">
+        <Grid Grid.Row="1" ColumnDefinitions="165,*,330">
             <TransitioningContentControl x:Name="LeftPaneContent" Grid.Column="0" Content="{Binding CurrentLeftPane}"/>
             <TransitioningContentControl x:Name="CenterPanelContent" Grid.Column="1" Content="{Binding CurrentCenterPanel}"/>
             <TransitioningContentControl x:Name="RightPaneContent" Grid.Column="2" Content="{Binding CurrentRightPane}"/>
