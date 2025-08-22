@@ -1,5 +1,6 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:models="clr-namespace:TheWordForge.models"
              x:Class="TheWordForge.panels.TranscriptPanel">
     <Border BorderBrush="White" BorderThickness="1" Background="#1e1e1e">
         <Grid>
@@ -12,11 +13,27 @@
                 <DockPanel>
                     <Button Content="Add Chapter" DockPanel.Dock="Bottom" Margin="5" Click="AddChapter"/>
                     <TreeView x:Name="ChapterTree" ItemsSource="{Binding Chapters}" Margin="5" DragDrop.AllowDrop="True">
-                        <TreeView.ItemTemplate>
-                            <TreeDataTemplate ItemsSource="{Binding Scenes}">
+                        <TreeView.DataTemplates>
+                            <TreeDataTemplate DataType="models:Chapter" ItemsSource="{Binding Scenes}">
                                 <TextBlock Text="{Binding Title}"/>
+                                <TreeDataTemplate.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Add Scene" Click="AddScene"/>
+                                        <MenuItem Header="Rename" Click="RenameChapter"/>
+                                        <MenuItem Header="Delete" Click="DeleteChapter"/>
+                                    </ContextMenu>
+                                </TreeDataTemplate.ContextMenu>
                             </TreeDataTemplate>
-                        </TreeView.ItemTemplate>
+                            <TreeDataTemplate DataType="models:Scene">
+                                <TextBlock Text="{Binding Title}"/>
+                                <TreeDataTemplate.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Rename" Click="RenameScene"/>
+                                        <MenuItem Header="Delete" Click="DeleteScene"/>
+                                    </ContextMenu>
+                                </TreeDataTemplate.ContextMenu>
+                            </TreeDataTemplate>
+                        </TreeView.DataTemplates>
                     </TreeView>
                 </DockPanel>
             </Border>

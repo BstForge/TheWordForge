@@ -1,9 +1,12 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Layout;
+using Avalonia.Media;
 using Avalonia.VisualTree;
 using TheWordForge;
 using TheWordForge.models;
@@ -13,36 +16,44 @@ namespace TheWordForge.panels;
 public partial class TranscriptPanel : UserControl
 {
     private object? _dragItem;
+    private object? _selectedItem;
+    private bool _suppressText;
+
+    private readonly TextBox _textBox;
+    private readonly TextBlock _wordText;
+    private readonly TextBlock _charText;
+    private readonly TreeView _tree;
 
     public TranscriptPanel()
     {
         InitializeComponent();
         DataContext = new TranscriptPanelViewModel();
 
-        var textBox = this.FindControl<TextBox>("TranscriptTextBox")!;
+        _textBox = this.FindControl<TextBox>("TranscriptTextBox")!;
         var scopeBox = this.FindControl<ComboBox>("ScopeComboBox")!;
-        var wordText = this.FindControl<TextBlock>("WordCountText")!;
-        var charText = this.FindControl<TextBlock>("CharacterCountText")!;
-        var tree = this.FindControl<TreeView>("ChapterTree")!;
+        _wordText = this.FindControl<TextBlock>("WordCountText")!;
+        _charText = this.FindControl<TextBlock>("CharacterCountText")!;
+        _tree = this.FindControl<TreeView>("ChapterTree")!;
 
-        textBox.TextChanged += (_, __) => UpdateCounts(textBox, wordText, charText);
-        scopeBox.SelectionChanged += (_, __) => UpdateCounts(textBox, wordText, charText);
+        _textBox.TextChanged += TextBoxOnTextChanged;
+        scopeBox.SelectionChanged += (_, __) => UpdateCounts();
 
-        tree.AddHandler(DragDrop.DropEvent, TreeViewDrop);
-        tree.AddHandler(DragDrop.DragOverEvent, TreeViewDragOver);
-        tree.PointerPressed += TreeViewPointerPressed;
+        _tree.AddHandler(DragDrop.DropEvent, TreeViewDrop);
+        _tree.AddHandler(DragDrop.DragOverEvent, TreeViewDragOver);
+        _tree.PointerPressed += TreeViewPointerPressed;
+        _tree.SelectionChanged += TreeSelectionChanged;
 
-        UpdateCounts(textBox, wordText, charText);
+        UpdateCounts();
     }
 
-    private void UpdateCounts(TextBox textBox, TextBlock wordText, TextBlock charText)
+    private void UpdateCounts()
     {
-        var text = textBox.Text ?? string.Empty;
+        var text = _textBox.Text ?? string.Empty;
         var wordCount = string.IsNullOrWhiteSpace(text) ? 0 :
             text.Split(new[] { ' ', '\n', '\r', '\t' }, StringSplitOptions.RemoveEmptyEntries).Length;
         var charCount = text.Length;
-        wordText.Text = $"Words: {wordCount}";
-        charText.Text = $"Chars: {charCount}";
+        _wordText.Text = $"Words: {wordCount}";
+        _charText.Text = $"Chars: {charCount}";
     }
 
     private void AddChapter(object? sender, RoutedEventArgs e)
@@ -53,6 +64,173 @@ public partial class TranscriptPanel : UserControl
             chapter.Scenes.Add(new Scene { Title = "Scene 1" });
             vm.Chapters.Add(chapter);
         }
+    }
+
+    private void TreeSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        _selectedItem = _tree.SelectedItem;
+        _suppressText = true;
+        if (_selectedItem is Scene scene)
+        {
+            _textBox.Text = scene.Text;
+        }
+        else if (_selectedItem is Chapter chapter)
+        {
+            _textBox.Text = string.Join("\n***\n", chapter.Scenes.Select(s => s.Text));
+        }
+        else
+        {
+            _textBox.Text = string.Empty;
+        }
+        _suppressText = false;
+        UpdateCounts();
+    }
+
+    private void TextBoxOnTextChanged(object? sender, TextChangedEventArgs e)
+    {
+        if (_suppressText)
+        {
+            UpdateCounts();
+            return;
+        }
+
+        if (_selectedItem is Scene scene)
+        {
+            scene.Text = _textBox.Text ?? string.Empty;
+        }
+        else if (_selectedItem is Chapter chapter)
+        {
+            var parts = (_textBox.Text ?? string.Empty).Split(new[] { "\n***\n" }, StringSplitOptions.None);
+            for (int i = 0; i < chapter.Scenes.Count; i++)
+            {
+                chapter.Scenes[i].Text = i < parts.Length ? parts[i].Trim() : string.Empty;
+            }
+        }
+
+        UpdateCounts();
+    }
+
+    private void AddScene(object? sender, RoutedEventArgs e)
+    {
+        if ((sender as MenuItem)?.DataContext is Chapter chapter)
+        {
+            chapter.Scenes.Add(new Scene { Title = $"Scene {chapter.Scenes.Count + 1}" });
+        }
+    }
+
+    private async void RenameChapter(object? sender, RoutedEventArgs e)
+    {
+        if ((sender as MenuItem)?.DataContext is Chapter chapter)
+        {
+            var result = await Prompt("Rename Chapter", chapter.Title);
+            if (!string.IsNullOrWhiteSpace(result))
+                chapter.Title = result;
+        }
+    }
+
+    private async void DeleteChapter(object? sender, RoutedEventArgs e)
+    {
+        if ((sender as MenuItem)?.DataContext is Chapter chapter && DataContext is TranscriptPanelViewModel vm)
+        {
+            if (await Confirm($"Delete '{chapter.Title}' and all its scenes?"))
+            {
+                vm.Chapters.Remove(chapter);
+                if (Equals(_selectedItem, chapter))
+                {
+                    _selectedItem = null;
+                    _textBox.Text = string.Empty;
+                    UpdateCounts();
+                }
+            }
+        }
+    }
+
+    private async void RenameScene(object? sender, RoutedEventArgs e)
+    {
+        if ((sender as MenuItem)?.DataContext is Scene scene)
+        {
+            var result = await Prompt("Rename Scene", scene.Title);
+            if (!string.IsNullOrWhiteSpace(result))
+                scene.Title = result;
+        }
+    }
+
+    private async void DeleteScene(object? sender, RoutedEventArgs e)
+    {
+        if ((sender as MenuItem)?.DataContext is Scene scene && DataContext is TranscriptPanelViewModel vm)
+        {
+            if (await Confirm($"Delete scene '{scene.Title}'?"))
+            {
+                foreach (var ch in vm.Chapters)
+                {
+                    if (ch.Scenes.Remove(scene))
+                        break;
+                }
+
+                if (Equals(_selectedItem, scene))
+                {
+                    _selectedItem = null;
+                    _textBox.Text = string.Empty;
+                    UpdateCounts();
+                }
+            }
+        }
+    }
+
+    private async Task<string?> Prompt(string title, string initial)
+    {
+        var window = new Window
+        {
+            Title = title,
+            Width = 300,
+            Height = 150,
+            WindowStartupLocation = WindowStartupLocation.CenterOwner
+        };
+        var text = new TextBox { Text = initial, Margin = new Thickness(10) };
+        var ok = new Button { Content = "OK", IsDefault = true, Margin = new Thickness(5) };
+        var cancel = new Button { Content = "Cancel", IsCancel = true, Margin = new Thickness(5) };
+        var buttons = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center };
+        buttons.Children.Add(ok);
+        buttons.Children.Add(cancel);
+        var stack = new StackPanel();
+        stack.Children.Add(text);
+        stack.Children.Add(buttons);
+        window.Content = stack;
+
+        string? result = null;
+        ok.Click += (_, __) => { result = text.Text; window.Close(); };
+        cancel.Click += (_, __) => { window.Close(); };
+
+        await window.ShowDialog((Window)VisualRoot!);
+        return result;
+    }
+
+    private async Task<bool> Confirm(string message)
+    {
+        var window = new Window
+        {
+            Title = "Confirm",
+            Width = 300,
+            Height = 150,
+            WindowStartupLocation = WindowStartupLocation.CenterOwner
+        };
+        var txt = new TextBlock { Text = message, Margin = new Thickness(10), TextWrapping = TextWrapping.Wrap };
+        var yes = new Button { Content = "Yes", Margin = new Thickness(5) };
+        var no = new Button { Content = "No", Margin = new Thickness(5) };
+        var buttons = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center };
+        buttons.Children.Add(yes);
+        buttons.Children.Add(no);
+        var stack = new StackPanel();
+        stack.Children.Add(txt);
+        stack.Children.Add(buttons);
+        window.Content = stack;
+
+        var tcs = new TaskCompletionSource<bool>();
+        yes.Click += (_, __) => { tcs.SetResult(true); window.Close(); };
+        no.Click += (_, __) => { tcs.SetResult(false); window.Close(); };
+
+        await window.ShowDialog((Window)VisualRoot!);
+        return await tcs.Task;
     }
 
     private async void TreeViewPointerPressed(object? sender, PointerPressedEventArgs e)
