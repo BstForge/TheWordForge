@@ -47,6 +47,7 @@ public class SlideTransition : IPageTransition
         if (to != null)
         {
             var toTransform = new TranslateTransform();
+            toTransform.SetValue(property, forward ? distance : -distance);
             to.RenderTransform = toTransform;
             to.IsVisible = true;
             if (to is InputElement toElement)

@@ -17,7 +17,6 @@ public partial class MainWindow : Window
     private void ApplyTransitions()
     {
         TopMenuContent.PageTransition = PreferencesService.BuildTransitionFor(TransitionRegion.Top);
-        LeftPaneContent.PageTransition = PreferencesService.BuildTransitionFor(TransitionRegion.Left);
         CenterPanelContent.PageTransition = PreferencesService.BuildTransitionFor(TransitionRegion.Center);
     }
 
