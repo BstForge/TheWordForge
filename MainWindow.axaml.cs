@@ -26,4 +26,18 @@ public partial class MainWindow : Window
         var win = new PreferencesWindow();
         win.ShowDialog(this);
     }
+
+    private void OpenHamburgerMenu(object? sender, RoutedEventArgs e)
+    {
+        if (sender is Button button && button.ContextMenu is { } menu)
+        {
+            menu.PlacementTarget = button;
+            menu.Open();
+        }
+    }
+
+    private void ExitApplication(object? sender, RoutedEventArgs e)
+    {
+        Close();
+    }
 }

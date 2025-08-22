@@ -9,10 +9,21 @@
         Width="1280" Height="720">
     <Grid RowDefinitions="100,*,60">
         <Grid Grid.Row="0" ColumnDefinitions="Auto,*">
-            <Button Name="HamburgerButton" Width="50" Height="50" Background="Transparent" BorderBrush="Transparent">
+            <Button Name="HamburgerButton" Width="50" Height="50" Background="Transparent" BorderBrush="Transparent" Click="OpenHamburgerMenu">
                 <Button.ContextMenu>
                     <ContextMenu>
+                        <MenuItem Header="New Project"/>
+                        <MenuItem Header="Load Project"/>
+                        <MenuItem Header="Save Project"/>
                         <MenuItem Header="Preferences" Click="OpenPreferences"/>
+                        <MenuItem Header="Export">
+                            <MenuItem Header="PDF"/>
+                            <MenuItem Header="DOCX"/>
+                            <MenuItem Header="RTF"/>
+                            <MenuItem Header="TXT"/>
+                        </MenuItem>
+                        <MenuItem Header="Print"/>
+                        <MenuItem Header="Exit" Click="ExitApplication"/>
                     </ContextMenu>
                 </Button.ContextMenu>
                 <Image Source="/resources/icons/hamburger.png" Stretch="Uniform"/>

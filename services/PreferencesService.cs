@@ -11,8 +11,13 @@ public enum TransitionMode
     Off,
     Slide,
     Fade,
-    Push,
-    Accordion
+    Push
+}
+
+public enum TransitionSpeed
+{
+    Fast,
+    Slow
 }
 
 public enum TransitionRegion
@@ -25,6 +30,7 @@ public enum TransitionRegion
 public static class PreferencesService
 {
     private static TransitionMode _transition = TransitionMode.Off;
+    private static TransitionSpeed _speed = TransitionSpeed.Fast;
 
     public static TransitionMode Transition
     {
@@ -34,6 +40,19 @@ public static class PreferencesService
             if (_transition != value)
             {
                 _transition = value;
+                TransitionChanged?.Invoke(null, EventArgs.Empty);
+            }
+        }
+    }
+
+    public static TransitionSpeed Speed
+    {
+        get => _speed;
+        set
+        {
+            if (_speed != value)
+            {
+                _speed = value;
                 TransitionChanged?.Invoke(null, EventArgs.Empty);
             }
         }
@@ -49,12 +68,15 @@ public static class PreferencesService
             _ => PageSlide.SlideAxis.Horizontal
         };
 
+        var duration = Speed == TransitionSpeed.Fast
+            ? TimeSpan.FromMilliseconds(200)
+            : TimeSpan.FromMilliseconds(400);
+
         return Transition switch
         {
-            TransitionMode.Slide => new PageSlide(TimeSpan.FromMilliseconds(200), axis),
-            TransitionMode.Fade => new CrossFade(TimeSpan.FromMilliseconds(200)),
-            TransitionMode.Push => new PushTransition { Duration = TimeSpan.FromMilliseconds(200), Orientation = axis },
-            TransitionMode.Accordion => new AccordionTransition { Duration = TimeSpan.FromMilliseconds(200), Orientation = axis },
+            TransitionMode.Slide => new PageSlide(duration, axis),
+            TransitionMode.Fade => new CrossFade(duration),
+            TransitionMode.Push => new PushTransition { Duration = duration, Orientation = axis },
             _ => null
         };
     }
