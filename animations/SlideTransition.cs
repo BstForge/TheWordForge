@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia;
@@ -11,7 +10,7 @@ using Avalonia.Input;
 
 namespace TheWordForge.animations;
 
-public class PushTransition : IPageTransition
+public class SlideTransition : IPageTransition
 {
     public TimeSpan Duration { get; set; } = TimeSpan.FromMilliseconds(200);
     public PageSlide.SlideAxis Orientation { get; set; } = PageSlide.SlideAxis.Horizontal;
@@ -21,50 +20,24 @@ public class PushTransition : IPageTransition
         if (cancellationToken.IsCancellationRequested)
             return;
 
-        var tasks = new List<Task>();
         var parent = ((from ?? to)!).GetVisualParent()!;
         var distance = Orientation == PageSlide.SlideAxis.Horizontal ? parent.Bounds.Width : parent.Bounds.Height;
         var property = Orientation == PageSlide.SlideAxis.Horizontal ? TranslateTransform.XProperty : TranslateTransform.YProperty;
 
         if (from != null)
         {
-            var transform = new TranslateTransform();
-            from.RenderTransform = transform;
-            var anim = new Animation
+            var fromTransform = new TranslateTransform();
+            from.RenderTransform = fromTransform;
+            var animOut = new Animation
             {
                 Duration = Duration,
                 Children =
                 {
                     new KeyFrame { Cue = new Cue(0), Setters = { new Setter(property, 0d) } },
-                    new KeyFrame { Cue = new Cue(1), Setters = { new Setter(property, forward ? distance : -distance) } }
+                    new KeyFrame { Cue = new Cue(1), Setters = { new Setter(property, forward ? -distance : distance) } }
                 }
             };
-            tasks.Add(anim.RunAsync(transform, cancellationToken));
-        }
-
-        if (to != null)
-        {
-            var transform = new TranslateTransform();
-            to.RenderTransform = transform;
-            to.IsVisible = true;
-            if (to is InputElement toElement)
-                toElement.IsHitTestVisible = true;
-            var anim = new Animation
-            {
-                Duration = Duration,
-                Children =
-                {
-                    new KeyFrame { Cue = new Cue(0), Setters = { new Setter(property, forward ? -distance : distance) } },
-                    new KeyFrame { Cue = new Cue(1), Setters = { new Setter(property, 0d) } }
-                }
-            };
-            tasks.Add(anim.RunAsync(transform, cancellationToken));
-        }
-
-        await Task.WhenAll(tasks);
-
-        if (from != null && !cancellationToken.IsCancellationRequested)
-        {
+            await animOut.RunAsync(fromTransform, cancellationToken);
             from.IsVisible = false;
             if (from is InputElement fromElement)
                 fromElement.IsHitTestVisible = false;
@@ -72,6 +45,23 @@ public class PushTransition : IPageTransition
         }
 
         if (to != null)
+        {
+            var toTransform = new TranslateTransform();
+            to.RenderTransform = toTransform;
+            to.IsVisible = true;
+            if (to is InputElement toElement)
+                toElement.IsHitTestVisible = true;
+            var animIn = new Animation
+            {
+                Duration = Duration,
+                Children =
+                {
+                    new KeyFrame { Cue = new Cue(0), Setters = { new Setter(property, forward ? distance : -distance) } },
+                    new KeyFrame { Cue = new Cue(1), Setters = { new Setter(property, 0d) } }
+                }
+            };
+            await animIn.RunAsync(toTransform, cancellationToken);
             to.RenderTransform = null;
+        }
     }
 }

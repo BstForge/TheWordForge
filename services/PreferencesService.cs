@@ -78,7 +78,7 @@ public static class PreferencesService
 
         return Transition switch
         {
-            TransitionMode.Slide => new PageSlide(duration, axis),
+            TransitionMode.Slide => new SlideTransition { Duration = duration, Orientation = axis },
             TransitionMode.Fade => new CrossFade(duration),
             TransitionMode.Push => new PushTransition { Duration = duration, Orientation = axis },
             TransitionMode.Dynamic => new DynamicTransition { Duration = duration },
