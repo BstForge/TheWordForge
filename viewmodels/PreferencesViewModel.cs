@@ -1,4 +1,3 @@
-using System;
 using System.ComponentModel;
 using TheWordForge.services;
 
@@ -6,31 +5,15 @@ namespace TheWordForge;
 
 public class PreferencesViewModel : INotifyPropertyChanged
 {
-    public Array TransitionModes => Enum.GetValues(typeof(TransitionMode));
-    public Array TransitionSpeeds => Enum.GetValues(typeof(TransitionSpeed));
-
-    public TransitionMode TransitionMode
+    public bool TransitionsEnabled
     {
-        get => PreferencesService.Transition;
+        get => PreferencesService.TransitionsEnabled;
         set
         {
-            if (PreferencesService.Transition != value)
+            if (PreferencesService.TransitionsEnabled != value)
             {
-                PreferencesService.Transition = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TransitionMode)));
-            }
-        }
-    }
-
-    public TransitionSpeed TransitionSpeed
-    {
-        get => PreferencesService.Speed;
-        set
-        {
-            if (PreferencesService.Speed != value)
-            {
-                PreferencesService.Speed = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TransitionSpeed)));
+                PreferencesService.TransitionsEnabled = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TransitionsEnabled)));
             }
         }
     }

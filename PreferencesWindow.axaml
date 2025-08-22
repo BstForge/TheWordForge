@@ -7,10 +7,7 @@
         MinWidth="300" MinHeight="150" SizeToContent="WidthAndHeight"
         Title="Preferences">
     <StackPanel Margin="10">
-        <TextBlock Text="Transitions" Margin="0,0,0,5"/>
-        <ComboBox ItemsSource="{Binding TransitionModes}" SelectedItem="{Binding TransitionMode}"/>
-        <TextBlock Text="Speed" Margin="0,10,0,5"/>
-        <ComboBox ItemsSource="{Binding TransitionSpeeds}" SelectedItem="{Binding TransitionSpeed}"/>
-        <Button Content="OK" HorizontalAlignment="Right" Margin="0,10,0,0" Click="ClosePreferences"/>
+        <ToggleSwitch Content="Transitions On/Off" IsChecked="{Binding TransitionsEnabled}" Margin="0,0,0,10"/>
+        <Button Content="OK" HorizontalAlignment="Right" Click="ClosePreferences"/>
     </StackPanel>
 </Window>
