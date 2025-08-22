@@ -2,6 +2,51 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="TheWordForge.panels.TranscriptPanel">
     <Border BorderBrush="White" BorderThickness="1" Background="#1e1e1e">
-        <TextBlock Text="Transcript Panel Placeholder" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" BorderBrush="White" BorderThickness="0,0,1,0" Background="#2a2a2a">
+                <DockPanel>
+                    <TreeView x:Name="ChapterTree" ItemsSource="{Binding Chapters}" Margin="5" DragDrop.AllowDrop="True">
+                        <TreeView.ItemTemplate>
+                            <TreeDataTemplate ItemsSource="{Binding Scenes}">
+                                <TextBlock Text="{Binding Title}"/>
+                            </TreeDataTemplate>
+                        </TreeView.ItemTemplate>
+                    </TreeView>
+                    <Button Content="Add Chapter" DockPanel.Dock="Bottom" Margin="5" Click="AddChapter"/>
+                </DockPanel>
+            </Border>
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Button Content="Insert Scene Break" HorizontalAlignment="Left" Margin="5"/>
+
+                <TextBox Grid.Row="1"
+                         x:Name="TranscriptTextBox"
+                         AcceptsReturn="True"
+                         TextWrapping="Wrap"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         Margin="5"/>
+
+                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+                    <ComboBox x:Name="ScopeComboBox" Width="100" SelectedIndex="0">
+                        <ComboBoxItem Content="Scene"/>
+                        <ComboBoxItem Content="Chapter"/>
+                        <ComboBoxItem Content="Project"/>
+                    </ComboBox>
+                    <TextBlock x:Name="WordCountText" Margin="10,0,0,0"/>
+                    <TextBlock x:Name="CharacterCountText" Margin="10,0,0,0"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
     </Border>
 </UserControl>
