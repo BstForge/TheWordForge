@@ -11,7 +11,8 @@ public enum TransitionMode
     Off,
     Slide,
     Fade,
-    Push
+    Push,
+    Dynamic
 }
 
 public enum TransitionSpeed
@@ -62,6 +63,9 @@ public static class PreferencesService
 
     public static IPageTransition? BuildTransitionFor(TransitionRegion region)
     {
+        if (region == TransitionRegion.Left)
+            return null;
+
         var axis = region switch
         {
             TransitionRegion.Top => PageSlide.SlideAxis.Vertical,
@@ -77,6 +81,7 @@ public static class PreferencesService
             TransitionMode.Slide => new PageSlide(duration, axis),
             TransitionMode.Fade => new CrossFade(duration),
             TransitionMode.Push => new PushTransition { Duration = duration, Orientation = axis },
+            TransitionMode.Dynamic => new DynamicTransition { Duration = duration },
             _ => null
         };
     }
